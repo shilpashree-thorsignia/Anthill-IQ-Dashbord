@@ -1,21 +1,15 @@
 {
     "version": 2,
     "builds": [
-        {
-            "src": "anthill_iq/wsgi.py",
-            "use": "@vercel/python",
-            "config": {
-                "buildCommand": "pip install -r requirements.txt && python manage.py makemigrations && python manage.py migrate --noinput && python manage.py collectstatic --noinput"
-            }
-        }
+      {
+        "src": "anthill_users/wsgi.py",
+        "use": "@vercel/python"
+      }
     ],
     "routes": [
-        {
-            "src": "/(.*)",
-            "dest": "anthill_iq/wsgi.py"
-        }
-    ],
-    "env": {
-        "PYTHONPATH": "."
-    }
-} 
+      {
+        "src": "/(.*)",
+        "dest": "anthill_users/wsgi.py"
+      }
+    ]
+  }
