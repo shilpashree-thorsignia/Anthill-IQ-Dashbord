@@ -61,8 +61,8 @@ WSGI_APPLICATION = 'anthill_iq.wsgi.application'
 
 # Database
 DATABASES = {
-    'default': dj_database_url.config(
-        default=env('DATABASE_URL'),
+    'default': dj_database_url.parse(
+        'postgresql://postgres:uEutQJRqyRbgOlzwhsGGgczYXaeBqgxI@yamabiko.proxy.rlwy.net:14599/railway',
         conn_max_age=600
     )
 }
@@ -92,6 +92,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
