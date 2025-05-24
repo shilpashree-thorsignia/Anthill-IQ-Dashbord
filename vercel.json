@@ -1,15 +1,9 @@
 {
-    "version": 2,
     "builds": [
-      {
-        "src": "anthill_users/wsgi.py",
-        "use": "@vercel/python"
-      }
+      { "src": "anthill_users/wsgi.py", "use": "@vercel/python" }
     ],
     "routes": [
-      {
-        "src": "/(.*)",
-        "dest": "anthill_users/wsgi.py"
-      }
+      { "src": "/static/(.*)", "dest": "/static/$1" },
+      { "src": "/(.*)", "dest": "anthill_users/wsgi.py" }
     ]
   }
