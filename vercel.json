@@ -1,0 +1,30 @@
+{
+    "version": 2,
+    "builds": [
+        {
+            "src": "anti_dashboard/wsgi.py",
+            "use": "@vercel/python",
+            "config": {
+                "maxLambdaSize": "15mb",
+                "runtime": "python3.9",
+                "buildCommand": "chmod +x build.sh && ./build.sh"
+            }
+        }
+    ],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "anti_dashboard/wsgi.py"
+        }
+    ],
+    "env": {
+        "DJANGO_SETTINGS_MODULE": "anti_dashboard.settings",
+        "PYTHONPATH": ".",
+        "RAILWAYAPI": "@railwayapi",
+        "SECRET_KEY": "@django_secret_key",
+        "DEBUG": "False",
+        "ALLOWED_HOSTS": ".vercel.app",
+        "DATABASE_URL": "@database_url",
+        "PYTHON_VERSION": "3.9"
+    }
+} 

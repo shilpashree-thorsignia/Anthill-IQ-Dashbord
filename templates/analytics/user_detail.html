@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load analytics_extras %}
+
+{% block title %}User Details - Chatbot Analytics{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>User Details</h1>
+        <a href="{% url 'dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+
+    {% if error %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+    {% else %}
+    <!-- User Details -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">User Details</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>User ID:</strong> {{ user.session_id }}</p>
+                            <p><strong>Name:</strong> {{ user.name|default:"Unknown" }}</p>
+                            <p><strong>Phone:</strong> {{ user.phone|default:"N/A" }}</p>
+                            <p><strong>Email:</strong> {{ user.email|default:"N/A" }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>First Seen:</strong> {{ user.timestamp|date:"Y-m-d H:i:s" }}</p>
+                            <p><strong>Source:</strong> {{ user.source|default:"N/A" }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Conversations -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Conversations</h5>
+                </div>
+                <div class="card-body">
+                    {% if conversations %}
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Message</th>
+                                    <th>Response</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for conv in conversations %}
+                                <tr>
+                                    <td>{{ conv.timestamp|date:"Y-m-d H:i:s" }}</td>
+                                    <td>{{ conv.user_message|default:"No message" }}</td>
+                                    <td>{{ conv.bot_response|default:"No response" }}</td>
+                                    <td>
+                                        <a href="{% url 'conversation_detail' conv.id %}" class="btn btn-sm btn-primary">View Details</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    {% if conv_pagination.total_pages > 1 %}
+                    <nav aria-label="Conversation pagination">
+                        <ul class="pagination justify-content-center">
+                            {% if conv_pagination.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?conv_page={{ conv_pagination.current_page|add:"-1" }}">Previous</a>
+                            </li>
+                            {% endif %}
+
+                            {% for page in conv_pagination.total_pages|get_range %}
+                            <li class="page-item {% if page == conv_pagination.current_page %}active{% endif %}">
+                                <a class="page-link" href="?conv_page={{ page }}">{{ page }}</a>
+                            </li>
+                            {% endfor %}
+
+                            {% if conv_pagination.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?conv_page={{ conv_pagination.current_page|add:"1" }}">Next</a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                    {% endif %}
+
+                    {% else %}
+                    <p class="text-center">No conversations found for this user.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %} 

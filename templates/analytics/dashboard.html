@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - Chatbot Analytics{% endblock %}
+
+{% block extra_head %}
+<script src="https://cdn.plot.ly/plotly-2.29.1.min.js"></script>
+<script>
+    // Function to refresh the dashboard
+    function refreshDashboard() {
+        window.location.reload();
+    }
+
+    // Set up auto-refresh
+    document.addEventListener('DOMContentLoaded', function() {
+        setInterval(refreshDashboard, {{ refresh_interval }});
+    });
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    {% if error %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+    {% endif %}
+
+    <!-- Stats Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Total Users</h5>
+                    <h2 class="card-text">{{ total_users }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Active Users (24h)</h5>
+                    <h2 class="card-text">{{ active_users }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Total Conversations</h5>
+                    <h2 class="card-text">{{ total_conversations }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Total Messages</h5>
+                    <h2 class="card-text">{{ total_messages }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- All Users -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">All Users</h5>
+                </div>
+                <div class="card-body">
+                    {% if users %}
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>User ID</th>
+                                    <th>Name</th>
+                                    <th>Phone</th>
+                                    <th>First Seen</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for user in users %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ user.session_id }}</td>
+                                    <td>{{ user.name|default:"Unknown" }}</td>
+                                    <td>{{ user.phone|default:"N/A" }}</td>
+                                    <td>{{ user.timestamp|date:"Y-m-d H:i:s" }}</td>
+                                    <td>
+                                        <a href="{% url 'user_detail' user.session_id %}" class="btn btn-sm btn-primary">View Details</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <p class="text-center">No users found.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Conversations -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Recent Conversations</h5>
+                </div>
+                <div class="card-body">
+                    {% if recent_conversations %}
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>User</th>
+                                    <th>Message</th>
+                                    <th>Response</th>
+                                    <th>Source</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for conv in recent_conversations %}
+                                <tr>
+                                    <td>{{ conv.timestamp|date:"Y-m-d H:i:s" }}</td>
+                                    <td>
+                                        <a href="{% url 'user_detail' conv.user.session_id %}">
+                                            {{ conv.user.name|default:"Unknown" }}
+                                        </a>
+                                    </td>
+                                    <td>{{ conv.user_message|default:"No message" }}</td>
+                                    <td>{{ conv.bot_response|default:"No response" }}</td>
+                                    <td>{{ conv.source|default:"N/A" }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <p class="text-center">No recent conversations found.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Auto-refresh script -->
+<script>
+    setTimeout(function() {
+        window.location.reload();
+    }, 600000); // Refresh every 10 minutes
+</script>
+{% endblock %} 
