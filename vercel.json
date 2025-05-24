@@ -11,6 +11,5 @@
             "src": "/(.*)",
             "dest": "anthill_iq/wsgi.py"
         }
-    ],
-    "postinstall": "python manage.py collectstatic --noinput"
+    ]
 } 
