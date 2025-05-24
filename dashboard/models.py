@@ -26,6 +26,10 @@ class Assessment(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        managed = True
+        db_table = 'dashboard_assessment'
+
 class Career(models.Model):
     title = models.CharField(max_length=200)
     company = models.CharField(max_length=200)

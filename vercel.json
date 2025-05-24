@@ -5,7 +5,7 @@
             "src": "anthill_iq/wsgi.py",
             "use": "@vercel/python",
             "config": {
-                "buildCommand": "python manage.py migrate --noinput && python manage.py collectstatic --noinput"
+                "buildCommand": "pip install -r requirements.txt && python manage.py makemigrations && python manage.py migrate --noinput && python manage.py collectstatic --noinput"
             }
         }
     ],
@@ -14,5 +14,8 @@
             "src": "/(.*)",
             "dest": "anthill_iq/wsgi.py"
         }
-    ]
+    ],
+    "env": {
+        "PYTHONPATH": "."
+    }
 } 
