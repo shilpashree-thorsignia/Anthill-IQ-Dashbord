@@ -16,9 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from users.views import dashboard
+from users.views import dashboard, chat_history
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', dashboard, name='users'),
+    path('chat-history/<str:id>/', chat_history, name='chat_history'),
 ]

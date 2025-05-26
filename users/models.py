@@ -17,3 +17,19 @@ class User(models.Model):
 
     def __str__(self):
         return self.name
+
+class Conversations(models.Model):
+    id = models.AutoField(primary_key=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    user_id = models.CharField(max_length=255)
+    user_message = models.CharField(max_length=255)
+    bot_response = models.CharField(max_length=255)
+    source = models.TextField()
+
+    class Meta:
+        managed = False
+        db_table = 'conversations'
+
+    def __str__(self):
+        return self.id
+
