@@ -6,19 +6,16 @@ def dashboard(request):
     users_qs = User.objects.all().order_by('-id')
     return render(request, 'users/dashboard.html', {'users': users_qs})
 
-def chat_history(_, id):
-    conversations = Conversations.objects.filter(user_id=id).order_by('timestamp')
-    data = {
-        'conversations': [
-            {
-                'user_message': conv.user_message,
-                'bot_response': conv.bot_response,
-                'timestamp': conv.timestamp.strftime('%Y-%m-%d %H:%M:%S')
-            }
-            for conv in conversations
-        ]
+from django.shortcuts import render, get_object_or_404
+from .models import Conversations
+
+def display_conversation(request, id):
+    conversation = get_object_or_404(Conversations, id=id)
+    context = {
+        'conversation': conversation
     }
-    return JsonResponse(data)
+    return render(request, 'users/conversation_detail.html', context)
+
 
 def login(request):
     if request.method == 'POST':
