@@ -7,6 +7,26 @@
     <title>Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+    <style>
+        a.btn.btn-primary {
+            display: inline-block;
+            background-color: #3b82f6; /* Tailwind blue-500 */
+            color: white;   
+            padding: 8px 16px;
+            font-weight: 600;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 6px rgba(59, 130, 246, 0.4);
+        }
+
+        a.btn.btn-primary:hover,
+        a.btn.btn-primary:focus {
+            background-color: #2563eb; /* Tailwind blue-600 */
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.6);
+            outline: none;
+        }
+    </style>
 </head>
 <body class="bg-gray-100 text-gray-800">
     <div class="container mx-auto px-4 py-8">

@@ -2,13 +2,94 @@
 <html>
 <head>
     <title>Conversation {{ conversation.id }}</title>
+    <style>
+        /* Reset some default styles */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ece9e6, #ffffff);
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            color: #2c3e50;
+        }
+
+        .container {
+            background-color: #fff;
+            max-width: 700px;
+            width: 100%;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+            border: 1px solid #d1d9e6;
+        }
+
+        h1 {
+            margin-top: 0;
+            font-weight: 700;
+            font-size: 2.2rem;
+            color: #34495e;
+            border-bottom: 3px solid #2980b9;
+            padding-bottom: 12px;
+            margin-bottom: 24px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin: 14px 0;
+            padding-left: 10px;
+            position: relative;
+        }
+
+        p strong {
+            color: #2980b9;
+            font-weight: 600;
+        }
+
+        /* Add a subtle vertical line for each paragraph */
+        p::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 6px;
+            width: 4px;
+            height: calc(100% - 12px);
+            background: #2980b9;
+            border-radius: 2px;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            body {
+                padding: 20px 10px;
+            }
+            .container {
+                padding: 25px 20px;
+            }
+            h1 {
+                font-size: 1.6rem;
+            }
+            p {
+                font-size: 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Conversation ID: {{ conversation.id }}</h1>
-    <p><strong>Timestamp:</strong> {{ conversation.timestamp }}</p>
-    <p><strong>User ID:</strong> {{ conversation.user_id }}</p>
-    <p><strong>User Message:</strong> {{ conversation.user_message }}</p>
-    <p><strong>Bot Response:</strong> {{ conversation.bot_response }}</p>
-    <p><strong>Source:</strong> {{ conversation.source }}</p>
+    <div class="container">
+        <h1>Conversation ID: {{ conversation.id }}</h1>
+        <p><strong>Timestamp:</strong> {{ conversation.timestamp }}</p>
+        <p><strong>User ID:</strong> {{ conversation.user_id }}</p>
+        <p><strong>User Message:</strong> {{ conversation.user_message }}</p>
+        <p><strong>Bot Response:</strong> {{ conversation.bot_response }}</p>
+        <p><strong>Source:</strong> {{ conversation.source }}</p>
+    </div>
 </body>
 </html>
