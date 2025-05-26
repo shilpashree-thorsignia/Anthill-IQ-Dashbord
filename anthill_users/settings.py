@@ -74,12 +74,29 @@ WSGI_APPLICATION = 'anthill_users.wsgi.application'
 
 
 # Database
+# Database
+import dj_database_url
+import os
+
 DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL'),
-        conn_max_age=600
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        **dj_database_url.config(
+            default=os.environ.get('DATABASE_URL'),
+            conn_max_age=600
+        )
+    }
 }
+
+# if not DATABASES['default']:
+#     DATABASES['default'] = {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': os.environ.get('PGDATABASE', 'railway'),
+#         'USER': os.environ.get('PGUSER', 'postgres'),
+#         'PASSWORD': os.environ.get('PGPASSWORD', ''),
+#         'HOST': os.environ.get('PGHOST', ''),
+#         'PORT': os.environ.get('PGPORT', '5432'),
+#     }
 
 
 # Password validation
