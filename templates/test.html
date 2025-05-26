@@ -22,11 +22,11 @@
                     <thead class="bg-gray-50">
                         <tr>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">id</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">timestamp</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">name</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">phone</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">email</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">source</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">timestamp</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">session_id</th>
                         </tr>
                     </thead>
@@ -37,9 +37,9 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ user.name }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ user.phone }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ user.email }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ user.company }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ user.message }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ user.created_at }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ user.source }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ user.timestamp }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ user.session_id }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
