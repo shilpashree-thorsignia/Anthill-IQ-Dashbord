@@ -33,7 +33,8 @@
         <h1 class="text-3xl font-bold mb-8">Dashboard</h1>
 
         <!-- Users Table -->
-        <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-8 hidden sm:block">
+
             <h2 class="text-xl font-semibold mb-4">Users</h2>
 
             {% if users %}
@@ -75,58 +76,24 @@
                 <p class="text-gray-500">No users found.</p>
             {% endif %}
         </div>
-    </div>
 
-    <!-- Chat History Modal -->
-    <div id="chatHistoryModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
-        <div class="relative top-20 mx-auto p-5 border w-4/5 shadow-lg rounded-md bg-white">
-            <h3 class="text-lg font-medium mb-4">Chat History</h3>
-            <div id="chatHistoryContent" class="mt-2 max-h-96 overflow-y-auto space-y-4">
-                <!-- Chat history will be dynamically inserted here -->
+        <!-- Mobile Cards -->
+        <div class="space-y-4 px-4 block sm:hidden">
+            {% for user in users %}
+            <div class="bg-white rounded-lg shadow-md p-4">
+                <div><strong>ID:</strong> {{ user.id }}</div>
+                <div><strong>Name:</strong> {{ user.name|default:"N/A" }}</div>
+                <div><strong>Phone:</strong> {{ user.phone|default:"N/A" }}</div>
+                <div><strong>Email:</strong> {{ user.email|default:"N/A" }}</div>
+                <div><strong>Source:</strong> {{ user.source|default:"N/A" }}</div>
+                <div><strong>Timestamp:</strong> {{ user.timestamp|date:"Y-m-d H:i:s" }}</div>
+                <div><strong>Session ID:</strong> {{ user.session_id|default:"-" }}</div>
+                <div class="mt-2">
+                    <a href="{% url 'display_conversation' id=user.id %}" class="btn btn-primary">View</a>
+                </div>
             </div>
-            <div class="mt-4">
-                <button onclick="closeChatHistory()" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
-                    Close
-                </button>
-            </div>
+            {% endfor %}
         </div>
     </div>
-
-    <script>
-        function showChatHistory(userId) {
-            fetch(`/chat-history/${userId}/`)
-                .then(response => response.json())
-                .then(data => {
-                    const chatContent = document.getElementById('chatHistoryContent');
-                    chatContent.innerHTML = '';
-
-                    if (data.conversations.length > 0) {
-                        data.conversations.forEach(conv => {
-                            chatContent.innerHTML += `
-                                <div class="p-4 border rounded">
-                                    <div class="font-semibold">User:</div>
-                                    <p>${conv.user_message}</p>
-                                    <div class="font-semibold mt-2">Bot:</div>
-                                    <p>${conv.bot_response}</p>
-                                    <div class="text-xs text-gray-400 mt-1">${conv.timestamp}</div>
-                                </div>
-                            `;
-                        });
-                    } else {
-                        chatContent.innerHTML = '<p class="text-gray-500">No chat history available for this user.</p>';
-                    }
-
-                    document.getElementById('chatHistoryModal').classList.remove('hidden');
-                })
-                .catch(err => {
-                    alert("Failed to load chat history.");
-                    console.error(err);
-                });
-        }
-
-        function closeChatHistory() {
-            document.getElementById('chatHistoryModal').classList.add('hidden');
-        }
-    </script>
 </body>
 </html>
